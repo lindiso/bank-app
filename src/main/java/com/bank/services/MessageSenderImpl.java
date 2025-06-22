@@ -15,17 +15,17 @@ public class MessageSenderImpl implements MessageSender {
     @Value("${arn.aws.sns}${aws.region}${aws.account.id}${aws.topic.name}")
     String snsTopicArn;
 
-    private SnsClient snsClient = null;
+  //  private SnsClient snsClient = null;
 
     public MessageSenderImpl() {
-        this.snsClient = SnsClient.builder()
+     /*   this.snsClient = SnsClient.builder()
                 .region(Region.AF_SOUTH_1) // Specify your region
-                .build();
+                .build();*/
     }
 
     @Override
     public PublishResponse publishMessage(String message) {
-        PublishRequest publishRequest = PublishRequest.builder()
+      /*  PublishRequest publishRequest = PublishRequest.builder()
                 .message(message)
                 .topicArn(snsTopicArn)
                 .build();
@@ -33,7 +33,7 @@ public class MessageSenderImpl implements MessageSender {
         if (publishResponse != null) {
             log.info("Message published successfully");
             return publishResponse;
-        }
+        }*/
         return null;
     }
 }
