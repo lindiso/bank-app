@@ -1,0 +1,144 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: Banking App Service (BAS) API
+  description: Retrieve a user information and withdrawal.
+basePath: /bank
+schemes:
+  - https
+  - http
+
+paths:
+
+  /withdraw/{accountId}/{amount}:
+    post:
+      tags:
+        - "Withdraw cash Operations"
+      summary: Execute the cash withdrawal
+      operationId: executeCashWIthdrawal
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: integer
+          description: The unique account Id
+        - name: amount
+          in: path
+          required: true
+          type: integer
+          description: The amount to withdraw
+
+      responses:
+        '200':
+          description: Withdrawal executed successfully
+          schema:
+            type: string
+
+        '400':
+          description: Invalid input parameter
+          schema:
+            $ref: '#/definitions/TechnicalErrorResponse'
+        '412':
+          description: Any server error conditions.
+          schema:
+            $ref: '#/definitions/TechnicalErrorResponse'
+
+
+
+
+
+definitions:
+
+  GenericErrorResponse:
+    description: The list of erorrs
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+
+  Error:
+    description: An error message.
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        description: The error code.
+        type: string
+        example: "001"
+      path:
+        description: Path to error
+        type: string
+        example: "path/to/field"
+      message:
+        description: The error message.
+        type: string
+        example: "Schedule Number is Mandatory"
+      # additionalMessage:
+      #   $ref: '#/definitions/ErrorMessages'
+      origin:
+        description: Backend error origin
+        type: string
+        example: "TMS Service"
+      severity:
+        $ref: "#/definitions/Severity"
+
+
+  ## SEVERITY
+
+  Severity:
+    description: The error severity
+    type: string
+    enum:
+      - FATAL
+      - ERROR
+      - WARNING
+      - INFO
+
+  TechnicalErrorResponse:
+    description: A UI bound error response message.
+    type: object
+    required:
+      - statusCode
+      - reference
+      - value
+    properties:
+
+      statusCode:
+        description: The HTTP status code.
+        type: string
+        example: "401"
+      errorCode:
+        description: The internal error code.
+        type: string
+        example: "401001"
+      reference:
+        description: Generated ticket
+        type: string
+        example: "1545123655606"
+      technicalMessage:
+        description: An optional technical message.
+        type: string
+        example: "Invalid user account id"
+      value:
+        description: The error message.
+        type: string
+        example: "You do not have access"
+      origin:
+        description: The request url that caused the error.
+        type: string
+        example: "http://somelocation/path/pathvariable"
+      contact:
+        description: bank support centre
+        type: string
+        example: " 080 0000 0000 or support@bank.co.za"
+      moreInfo:
+        description: More info on error message
+        type: string
+        example: " Stack trace….."
