@@ -38,6 +38,65 @@ paths:
           schema:
             type: string
 
+  /create/account/{accountId}/{amount}:
+    post:
+      tags:
+        - "Create account Operations"
+      summary: Execute the create account
+      operationId: executeCreateAccount
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: integer
+          description: The unique account Id
+        - name: amount
+          in: path
+          required: true
+          type: integer
+          description: The amount to deposit
+
+      responses:
+        '200':
+          description: create account executed successfully
+          schema:
+            type: string
+
+
+
+  /deposit/{accountId}/{amount}:
+    post:
+      tags:
+        - "Deposit cash Operations"
+      summary: Execute the cash deposit
+      operationId: executeCashDeposit
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: integer
+          description: The unique account Id
+        - name: amount
+          in: path
+          required: true
+          type: integer
+          description: The amount to withdraw
+
+      responses:
+        '200':
+          description: Deposit executed successfully
+          schema:
+            type: string
+
+
         '400':
           description: Invalid input parameter
           schema:
